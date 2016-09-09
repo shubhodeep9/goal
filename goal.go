@@ -44,6 +44,7 @@ func main() {
 		"[2] Server                  [  ]",
 		"[*] EXIT                    [\u2717 ]",
 	}
+
 	//main handler for the activity
 	app.Action = func(c *cli.Context) error {
 		err := termui.Init()
@@ -87,6 +88,10 @@ func main() {
 				rotator = len(runtimecourses) - 1
 				termui.StopLoop()
 			}
+
+			//Beginning of iteratable list code
+			//Simple incremental algorithm used to
+			//highlight list items
 			if e.Path == "/sys/kbd/<down>" {
 				rotator = rotator + 1
 			} else if e.Path == "/sys/kbd/<up>" {
