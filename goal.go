@@ -28,18 +28,21 @@ func main() {
 		"[[0] Hello World!            [  ]](fg-white,bg-blue)",
 		"[[1] 2 + 2 = 4               [  ]](fg-white,bg-blue)",
 		"[[2] Server                  [  ]](fg-white,bg-blue)",
+		"[[*] EXIT                    [\u2717 ]](fg-white,bg-blue)",
 	}
 
 	courses := []string{
 		"[0] Hello World!            [  ]",
 		"[1] 2 + 2 = 4               [  ]",
 		"[2] Server                  [  ]",
+		"[*] EXIT                    [\u2717 ]",
 	}
 
 	runtimecourses := []string{
 		"[[0] Hello World!            [  ]](fg-white,bg-blue)",
 		"[1] 2 + 2 = 4               [  ]",
 		"[2] Server                  [  ]",
+		"[*] EXIT                    [\u2717 ]",
 	}
 	//main handler for the activity
 	app.Action = func(c *cli.Context) error {
@@ -81,6 +84,7 @@ func main() {
 				termui.StopLoop()
 			}
 			if e.Path == "/sys/kbd/q" || e.Path == "/sys/kbd/<escape>" {
+				rotator = len(runtimecourses) - 1
 				termui.StopLoop()
 			}
 			if e.Path == "/sys/kbd/<down>" {
@@ -107,5 +111,7 @@ func main() {
 		return nil
 	}
 	app.Run(os.Args)
-	fmt.Println("You pressed " + strconv.Itoa(rotator))
+	if rotator < len(runtimecourses)-1 {
+		fmt.Println("You pressed " + strconv.Itoa(rotator))
+	}
 }
