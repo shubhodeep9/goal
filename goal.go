@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gizak/termui"
 	"github.com/urfave/cli"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -19,7 +21,26 @@ func main() {
 			Usage: "Give the file name",
 		},
 	}
+	rotator := 0
 
+	//character code for check mark is \u2714
+	highlighted := []string{
+		"[[0] Hello World!            [  ]](fg-white,bg-blue)",
+		"[[1] 2 + 2 = 4               [  ]](fg-white,bg-blue)",
+		"[[2] Server                  [  ]](fg-white,bg-blue)",
+	}
+
+	courses := []string{
+		"[0] Hello World!            [  ]",
+		"[1] 2 + 2 = 4               [  ]",
+		"[2] Server                  [  ]",
+	}
+
+	runtimecourses := []string{
+		"[[0] Hello World!            [  ]](fg-white,bg-blue)",
+		"[1] 2 + 2 = 4               [  ]",
+		"[2] Server                  [  ]",
+	}
 	//main handler for the activity
 	app.Action = func(c *cli.Context) error {
 		err := termui.Init()
@@ -37,29 +58,12 @@ func main() {
 
 		g := termui.NewGauge()
 		g.Percent = 50
-		g.Width = 100
+		g.Width = 60
 		g.Height = 3
 		g.Label = ""
-		g.Y = 3
+		g.X = 18
 		g.BorderLabel = "GOaL Status 50%"
 
-		highlighted := []string{
-			"[[0] Hello World!            [\u2717 ]](fg-white,bg-blue)",
-			"[[1] 2 + 2 = 4               [  ]](fg-white,bg-blue)",
-			"[[2] Server                  [  ]](fg-white,bg-blue)",
-		}
-
-		courses := []string{
-			"[0] Hello World!            [\u2717 ]",
-			"[1] 2 + 2 = 4               [  ]",
-			"[2] Server                  [  ]",
-		}
-
-		runtimecourses := []string{
-			"[[0] Hello World!            [\u2717 ]](fg-white,bg-blue)",
-			"[1] 2 + 2 = 4               [  ]",
-			"[2] Server                  [  ]",
-		}
 		ls := termui.NewList()
 		ls.Items = runtimecourses
 		ls.ItemFgColor = termui.ColorYellow
@@ -69,11 +73,13 @@ func main() {
 		ls.BorderLabel = "GOaL Courses"
 		ls.Height = 12
 		ls.Width = 50
-		ls.Y = 6
+		ls.Y = 3
 		ls.X = 3
 		termui.Render(heading, g, ls)
-		rotator := 0
 		termui.Handle("/sys/kbd", func(e termui.Event) {
+			if e.Path == "/sys/kbd/<enter>" {
+				termui.StopLoop()
+			}
 			if e.Path == "/sys/kbd/q" || e.Path == "/sys/kbd/<escape>" {
 				termui.StopLoop()
 			}
@@ -100,6 +106,6 @@ func main() {
 		termui.Loop()
 		return nil
 	}
-
 	app.Run(os.Args)
+	fmt.Println("You pressed " + strconv.Itoa(rotator))
 }
