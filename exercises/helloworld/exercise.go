@@ -1,11 +1,17 @@
 package main
 
 import (
-	. "github.com/smartystreets/goconvey"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
 )
 
 func main() {
-	Convey("The value should be greater by one", func() {
-		So(2, ShouldEqual, 2)
-	})
+	gopath := os.Getenv("GOPATH")
+	problem, err := ioutil.ReadFile(gopath + "/src/github.com/shubhodeep9/goal/exercises/helloworld/problem.md")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(problem))
 }
