@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"fmt"
 	"github.com/gizak/termui"
 	"github.com/urfave/cli"
 	"os"
@@ -21,6 +20,7 @@ func main() {
 		},
 	}
 
+	//main handler for the activity
 	app.Action = func(c *cli.Context) error {
 		err := termui.Init()
 		if err != nil {
@@ -29,6 +29,8 @@ func main() {
 		defer termui.Close()
 
 		heading := termui.NewPar("GO and Learn!")
+		heading.Y = 1
+		heading.X = 2
 		heading.Height = 2
 		heading.Width = 20
 		heading.Border = false
@@ -41,22 +43,59 @@ func main() {
 		g.Y = 3
 		g.BorderLabel = "GOaL Status 50%"
 
+		highlighted := []string{
+			"[[0] Hello World!            [\u2717 ]](fg-white,bg-blue)",
+			"[[1] 2 + 2 = 4               [  ]](fg-white,bg-blue)",
+			"[[2] Server                  [  ]](fg-white,bg-blue)",
+		}
+
 		courses := []string{
-			"[0]Hello World!",
-			"[1]2 + 2 = 4",
+			"[0] Hello World!            [\u2717 ]",
+			"[1] 2 + 2 = 4               [  ]",
+			"[2] Server                  [  ]",
+		}
+
+		runtimecourses := []string{
+			"[[0] Hello World!            [\u2717 ]](fg-white,bg-blue)",
+			"[1] 2 + 2 = 4               [  ]",
+			"[2] Server                  [  ]",
 		}
 		ls := termui.NewList()
-		ls.Items = courses
+		ls.Items = runtimecourses
 		ls.ItemFgColor = termui.ColorYellow
+		ls.BorderFg = termui.ColorBlue
+		ls.PaddingLeft = 6
+		ls.PaddingTop = 1
 		ls.BorderLabel = "GOaL Courses"
 		ls.Height = 12
-		ls.Width = 25
+		ls.Width = 50
 		ls.Y = 6
-		ls.X = 4
-
+		ls.X = 3
 		termui.Render(heading, g, ls)
-		termui.Handle("/sys/kbd/q", func(termui.Event) {
-			termui.StopLoop()
+		rotator := 0
+		termui.Handle("/sys/kbd", func(e termui.Event) {
+			if e.Path == "/sys/kbd/q" || e.Path == "/sys/kbd/<escape>" {
+				termui.StopLoop()
+			}
+			if e.Path == "/sys/kbd/<down>" {
+				rotator = rotator + 1
+			} else if e.Path == "/sys/kbd/<up>" {
+				rotator = rotator - 1
+			}
+			if rotator < 0 {
+				rotator = len(runtimecourses) + rotator
+			} else {
+				rotator = rotator % len(runtimecourses)
+			}
+			for i := 0; i < len(runtimecourses); i++ {
+				if i == rotator {
+					runtimecourses[i] = highlighted[i]
+				} else {
+					runtimecourses[i] = courses[i]
+				}
+			}
+			ls.Items = runtimecourses
+			termui.Render(ls)
 		})
 		termui.Loop()
 		return nil
