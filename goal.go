@@ -116,6 +116,8 @@ func main() {
 		return nil
 	}
 	app.Run(os.Args)
+
+	//Condition to output the choice
 	if rotator < len(runtimecourses)-1 {
 		fmt.Println("You pressed " + strconv.Itoa(rotator))
 	}
