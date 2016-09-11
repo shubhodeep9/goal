@@ -1,11 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gizak/termui"
 	"github.com/urfave/cli"
+	"goal/exercises"
 	"os"
-	"strconv"
 )
 
 func main() {
@@ -119,6 +118,6 @@ func main() {
 
 	//Condition to output the choice
 	if rotator < len(runtimecourses)-1 {
-		fmt.Println("You pressed " + strconv.Itoa(rotator))
+		exercises.ExerciseGo(rotator)
 	}
 }
