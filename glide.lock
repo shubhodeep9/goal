@@ -1,0 +1,14 @@
+hash: 56cd84415328c04f7ad95c589e13eda2acf4e70600c4eedee2b17687494f4355
+updated: 2016-09-24T12:53:16.216173905+05:30
+imports:
+- name: github.com/gizak/termui
+  version: 202925a536c7febe22698792a2b6de68edb2726d
+- name: github.com/mattn/go-runewidth
+  version: d6bea18f789704b5f83375793155289da36a3c7f
+- name: github.com/mitchellh/go-wordwrap
+  version: ad45545899c7b13c020ea92b2072220eefad42b8
+- name: github.com/nsf/termbox-go
+  version: 0723e7c3d0a317dea811f0fbe4d6edd81908c971
+- name: github.com/urfave/cli
+  version: c723b19a84af34d905773672ffa1b8ead802e505
+testImports: []
