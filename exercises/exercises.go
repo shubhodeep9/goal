@@ -53,6 +53,39 @@ func storeCurrent(val int) bool {
 	return true
 }
 
-func ExerciseChecker() int {
-	return 2
+// function to get current exercise
+func getCurrent() (int, bool) {
+	// get HOME dir
+	usr, err := user.Current()
+	if err != nil {
+		return 0, false
+	}
+
+	// set path as $HOME/.config/goal
+	path := usr.HomeDir + "/.config/goal"
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return 0, false
+	}
+
+	file, err := os.OpenFile(path+"/current.txt", os.O_RDWR, 0644)
+	if err != nil {
+		return 0, false
+	}
+	defer file.Close()
+	b := make([]byte, 5)
+	n, err := file.Read(b)
+	if err != nil {
+		return 0, false
+	}
+	val, err := strconv.Atoi(string(b[:n]))
+	if err != nil {
+		return 0, false
+	}
+	return val, true
+
+}
+
+func ExerciseChecker() (int, bool) {
+	val, ok := getCurrent()
+	return val, ok
 }
