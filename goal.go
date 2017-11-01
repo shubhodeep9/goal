@@ -113,15 +113,15 @@ func main() {
 			termui.Render(ls)
 		})
 		termui.Loop()
+		//Condition to output the choice
+		if rotator < len(runtimecourses)-1 {
+			cmd := exec.Command("clear")
+			cmd.Stdout = os.Stdout
+			cmd.Run()
+			exercises.ExerciseGo(rotator)
+		}
 		return nil
 	}
 	app.Run(os.Args)
 
-	//Condition to output the choice
-	if rotator < len(runtimecourses)-1 {
-		cmd := exec.Command("clear")
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-		exercises.ExerciseGo(rotator)
-	}
 }
