@@ -24,6 +24,12 @@
   revision = "0723e7c3d0a317dea811f0fbe4d6edd81908c971"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/philgebhardt/mdcat"
+  packages = ["."]
+  revision = "b6fa73b223e1925c9bb689ce562ce57edf889562"
+
+[[projects]]
   name = "github.com/russross/blackfriday"
   packages = ["."]
   revision = "cadec560ec52d93835bf2f15bd794700d3a2473b"
@@ -34,12 +40,6 @@
   name = "github.com/samfoo/ansi"
   packages = ["."]
   revision = "b6bd2ded7189ce35bc02233b554eb56a5146af73"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/samfoo/mdcat"
-  packages = ["."]
-  revision = "3e3d5157e7372df555a4000d1c1f14c7b2fa5284"
 
 [[projects]]
   branch = "master"
@@ -55,6 +55,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "dab2e43dadb5db332d0e9483bcf1eff9b6c16e79629df591761442381e696c5f"
+  inputs-digest = "71e17ed5e0d9edecb4fd59e3dfaa211f424edc74485b92a9175e7a560ae1e1b0"
   solver-name = "gps-cdcl"
   solver-version = 1
