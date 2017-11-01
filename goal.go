@@ -44,84 +44,93 @@ func main() {
 		"[2] Server                  [  ]",
 		"[*] EXIT                    [\u2717 ]",
 	}
+	var FlagSet bool = true
 
 	//main handler for the activity
 	app.Action = func(c *cli.Context) error {
-		err := termui.Init()
-		if err != nil {
-			return err
-		}
-		defer termui.Close()
+		if c.NArg() == 0 {
+			err := termui.Init()
+			if err != nil {
+				return err
+			}
+			defer termui.Close()
 
-		heading := termui.NewPar("GO and Learn!")
-		heading.Y = 1
-		heading.X = 2
-		heading.Height = 2
-		heading.Width = 20
-		heading.Border = false
+			heading := termui.NewPar("GO and Learn!")
+			heading.Y = 1
+			heading.X = 2
+			heading.Height = 2
+			heading.Width = 20
+			heading.Border = false
 
-		g := termui.NewGauge()
-		g.Percent = 50
-		g.Width = 60
-		g.Height = 3
-		g.Label = ""
-		g.X = 18
-		g.BorderLabel = "GOaL Status 50%"
+			g := termui.NewGauge()
+			g.Percent = 50
+			g.Width = 60
+			g.Height = 3
+			g.Label = ""
+			g.X = 18
+			g.BorderLabel = "GOaL Status 50%"
 
-		ls := termui.NewList()
-		ls.Items = runtimecourses
-		ls.ItemFgColor = termui.ColorYellow
-		ls.BorderFg = termui.ColorBlue
-		ls.PaddingLeft = 6
-		ls.PaddingTop = 1
-		ls.BorderLabel = "GOaL Courses"
-		ls.Height = 12
-		ls.Width = 50
-		ls.Y = 3
-		ls.X = 3
-		termui.Render(heading, g, ls)
-		termui.Handle("/sys/kbd", func(e termui.Event) {
-			if e.Path == "/sys/kbd/<enter>" {
-				termui.StopLoop()
-			}
-			if e.Path == "/sys/kbd/q" || e.Path == "/sys/kbd/<escape>" {
-				rotator = len(runtimecourses) - 1
-				termui.StopLoop()
-			}
-
-			//Beginning of iteratable list code
-			//Simple incremental algorithm used to
-			//highlight list items
-			if e.Path == "/sys/kbd/<down>" {
-				rotator = rotator + 1
-			} else if e.Path == "/sys/kbd/<up>" {
-				rotator = rotator - 1
-			}
-			if rotator < 0 {
-				rotator = len(runtimecourses) + rotator
-			} else {
-				rotator = rotator % len(runtimecourses)
-			}
-			for i := 0; i < len(runtimecourses); i++ {
-				if i == rotator {
-					runtimecourses[i] = highlighted[i]
-				} else {
-					runtimecourses[i] = courses[i]
-				}
-			}
+			ls := termui.NewList()
 			ls.Items = runtimecourses
-			termui.Render(ls)
-		})
-		termui.Loop()
-		//Condition to output the choice
+			ls.ItemFgColor = termui.ColorYellow
+			ls.BorderFg = termui.ColorBlue
+			ls.PaddingLeft = 6
+			ls.PaddingTop = 1
+			ls.BorderLabel = "GOaL Courses"
+			ls.Height = 12
+			ls.Width = 50
+			ls.Y = 3
+			ls.X = 3
+			termui.Render(heading, g, ls)
+			termui.Handle("/sys/kbd", func(e termui.Event) {
+				if e.Path == "/sys/kbd/<enter>" {
+					termui.StopLoop()
+				}
+				if e.Path == "/sys/kbd/q" || e.Path == "/sys/kbd/<escape>" {
+					rotator = len(runtimecourses) - 1
+					termui.StopLoop()
+				}
+
+				//Beginning of iteratable list code
+				//Simple incremental algorithm used to
+				//highlight list items
+				if e.Path == "/sys/kbd/<down>" {
+					rotator = rotator + 1
+				} else if e.Path == "/sys/kbd/<up>" {
+					rotator = rotator - 1
+				}
+				if rotator < 0 {
+					rotator = len(runtimecourses) + rotator
+				} else {
+					rotator = rotator % len(runtimecourses)
+				}
+				for i := 0; i < len(runtimecourses); i++ {
+					if i == rotator {
+						runtimecourses[i] = highlighted[i]
+					} else {
+						runtimecourses[i] = courses[i]
+					}
+				}
+				ls.Items = runtimecourses
+				termui.Render(ls)
+			})
+			termui.Loop()
+			FlagSet = false
+		}
+		return nil
+	}
+	app.Run(os.Args)
+
+	// this means that only > goal \
+	// was triggered, so we print the choice
+	// else the flag is triggered
+	if !FlagSet {
 		if rotator < len(runtimecourses)-1 {
 			cmd := exec.Command("clear")
 			cmd.Stdout = os.Stdout
 			cmd.Run()
 			exercises.ExerciseGo(rotator)
 		}
-		return nil
 	}
-	app.Run(os.Args)
 
 }
