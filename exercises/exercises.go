@@ -12,6 +12,10 @@ var exercises []interface{} = []interface{}{
 }
 
 func ExerciseGo(index int) bool {
+	// execute function from the list
+	if index >= len(exercises) {
+		return false
+	}
 	exercises[index].(func())()
 	return storeCurrent(index)
 }
