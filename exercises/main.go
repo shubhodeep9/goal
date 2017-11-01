@@ -1,7 +1,7 @@
 package exercises
 
 import (
-	"goal/exercises/helloworld"
+	"github.com/shubhodeep9/goal/exercises/helloworld"
 )
 
 func ExerciseGo(index int) {

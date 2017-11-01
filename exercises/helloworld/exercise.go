@@ -2,9 +2,11 @@ package helloworld
 
 import (
 	"fmt"
+	"github.com/philgebhardt/mdcat"
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 )
 
 func Output() {
@@ -13,5 +15,6 @@ func Output() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(problem))
+	markdown_string := fmt.Sprintf(string(problem))
+	mdcat.Print(strings.NewReader(markdown_string))
 }

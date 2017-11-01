@@ -2,9 +2,10 @@ package main
 
 import (
 	"github.com/gizak/termui"
+	"github.com/shubhodeep9/goal/exercises"
 	"github.com/urfave/cli"
-	"goal/exercises"
 	"os"
+	"os/exec"
 )
 
 func main() {
@@ -118,6 +119,9 @@ func main() {
 
 	//Condition to output the choice
 	if rotator < len(runtimecourses)-1 {
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
 		exercises.ExerciseGo(rotator)
 	}
 }
