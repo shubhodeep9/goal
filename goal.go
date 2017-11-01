@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gizak/termui"
 	"github.com/shubhodeep9/goal/exercises"
 	"github.com/urfave/cli"
@@ -131,7 +130,6 @@ func main() {
 			cmd.Stdout = os.Stdout
 			cmd.Run()
 			exercises.ExerciseGo(rotator)
-			fmt.Println(exercises.ExerciseChecker())
 		}
 	}
 
