@@ -7,6 +7,7 @@ import (
 	"github.com/urfave/cli"
 	"os"
 	"os/exec"
+	"strconv"
 )
 
 func main() {
@@ -47,6 +48,8 @@ func main() {
 	}
 	var FlagSet bool = true
 
+	current, _ := exercises.GetCurrent()
+
 	//main handler for the activity
 	app.Action = func(c *cli.Context) error {
 		if c.NArg() == 0 {
@@ -64,12 +67,12 @@ func main() {
 			heading.Border = false
 
 			g := termui.NewGauge()
-			g.Percent = 50
+			g.Percent = int(current/len(courses)) * 100
 			g.Width = 60
 			g.Height = 3
 			g.Label = ""
 			g.X = 18
-			g.BorderLabel = "GOaL Status 50%"
+			g.BorderLabel = "GOaL Status " + strconv.Itoa(g.Percent) + "%"
 
 			ls := termui.NewList()
 			ls.Items = runtimecourses

@@ -54,7 +54,7 @@ func storeCurrent(val int) bool {
 }
 
 // function to get current exercise
-func getCurrent() (int, bool) {
+func GetCurrent() (int, bool) {
 	// get HOME dir
 	usr, err := user.Current()
 	if err != nil {
@@ -86,6 +86,6 @@ func getCurrent() (int, bool) {
 }
 
 func ExerciseChecker() (int, bool) {
-	val, ok := getCurrent()
+	val, ok := GetCurrent()
 	return val, ok
 }
